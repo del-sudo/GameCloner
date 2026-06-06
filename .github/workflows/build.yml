@@ -1,23 +1,30 @@
 name: Build Android APK
+
 on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout Source Code
       uses: actions/checkout@v4
+
     - name: Set up Java JDK
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
-    - name: Compile App with Gradle
+
+    - name: Generate Gradle Runner and Compile
       run: |
+        gradle wrapper --gradle-version 8.2
         chmod +x gradlew
         ./gradlew assembleDebug
+
     - name: Upload Finished APK File
       uses: actions/upload-artifact@v4
       with:
